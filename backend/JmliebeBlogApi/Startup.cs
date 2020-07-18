@@ -25,7 +25,10 @@ namespace JmliebeBlogApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen();
+
+            services.AddControllers();
 
             services.AddCors(options =>
                 options.AddPolicy("CorsPolicy", builder =>
@@ -33,8 +36,6 @@ namespace JmliebeBlogApi
                     .AllowAnyHeader()
                     .WithOrigins("http://localhost:3000", "https://qanda.jmliebe.com")
                     .AllowCredentials()));
-
-            services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,14 +51,14 @@ namespace JmliebeBlogApi
 
                 app.UseSwaggerUI(c =>
                 {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Blog API");
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Question and Answer API");
                 });
             }
             else
             {
                 app.UseSwaggerUI(c =>
                 {
-                    c.SwaggerEndpoint("/blog/swagger/v1/swagger.json", "Blog API");
+                    c.SwaggerEndpoint("/qanda/swagger/v1/swagger.json", "Question and Answer API");
                 });
             }
 
