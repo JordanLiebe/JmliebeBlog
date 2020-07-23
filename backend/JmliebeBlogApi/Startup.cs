@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using JmliebeBlogApi.Data;
 
 namespace JmliebeBlogApi
 {
@@ -34,8 +35,10 @@ namespace JmliebeBlogApi
                 options.AddPolicy("CorsPolicy", builder =>
                 builder.AllowAnyMethod()
                     .AllowAnyHeader()
-                    .WithOrigins("http://localhost:3000", "https://qanda.jmliebe.com")
+                    .WithOrigins("http://localhost:3000", "https://blog.jmliebe.com")
                     .AllowCredentials()));
+
+            services.AddScoped<IDataRepository, DataRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -51,14 +54,14 @@ namespace JmliebeBlogApi
 
                 app.UseSwaggerUI(c =>
                 {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Question and Answer API");
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Jmliebe Blog API");
                 });
             }
             else
             {
                 app.UseSwaggerUI(c =>
                 {
-                    c.SwaggerEndpoint("/qanda/swagger/v1/swagger.json", "Question and Answer API");
+                    c.SwaggerEndpoint("/blog/swagger/v1/swagger.json", "Jmliebe Blog API");
                 });
             }
 
