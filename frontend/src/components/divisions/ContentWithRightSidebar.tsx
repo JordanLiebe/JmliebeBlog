@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
 
@@ -14,14 +14,21 @@ export const ContentWithRightSidebar = (
     <div
       css={css`
         display: flex;
+        justify-content: space-around;
         flex-direction: row;
-        flex-wrap: wrap;
+        @media only screen and (max-width: 990px) {
+          flex-direction: column;
+        }
       `}
     >
       <div
         id="content"
         css={css`
           width: 75%;
+          min-width: 300px;
+          @media only screen and (max-width: 990px) {
+            width: 100%;
+          }
         `}
       >
         {props.content}
@@ -30,7 +37,9 @@ export const ContentWithRightSidebar = (
         id="sidebar"
         css={css`
           width: 25%;
-          min-width: 350px;
+          @media only screen and (max-width: 990px) {
+            width: 100%;
+          }
         `}
       >
         {props.sidebar}

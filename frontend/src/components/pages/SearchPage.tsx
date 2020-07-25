@@ -18,12 +18,11 @@ export const SearchPage: FC<RouteComponentProps> = ({ history, location }) => {
   return (
     <div
       css={css`
-        display: flex;
         padding-right: 1%;
         padding-left: 1%;
       `}
     >
-      <PostList posts={posts} />
+      <PostList posts={posts} loaded={true} />
     </div>
   );
 };

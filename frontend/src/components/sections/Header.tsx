@@ -21,7 +21,7 @@ const navLinks: NavLink[] = [
 
 export const Header = (props: HeaderProps) => {
   return (
-    <Navbar bg="dark" variant="dark" expand="lg">
+    <Navbar bg="dark" variant="dark" expand="lg" sticky="top">
       <Navbar.Brand href="#home">{props.title}</Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
@@ -38,11 +38,11 @@ export const Header = (props: HeaderProps) => {
             </Nav.Link>
           ))}
         </Nav>
-        <Form inline>
-          <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-          <Button variant="outline-success">Search</Button>
-        </Form>
-        <Nav>
+        <Nav
+          css={css`
+            text-align: center;
+          `}
+        >
           <Nav.Link>Sign In</Nav.Link>
         </Nav>
       </Navbar.Collapse>
