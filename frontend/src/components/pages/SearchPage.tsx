@@ -1,12 +1,31 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, useEffect, useState } from 'react';
+import { PostList } from '../partials/PostList';
+import { EntryGetResponse } from '../functional/api-interfaces';
+import { getPosts } from '../functional/api-client';
+import { RouteComponentProps } from 'react-router-dom';
+/** @jsx jsx */
+import { css, jsx } from '@emotion/core';
 
-interface SearchPageProps {
-  Query?: string;
-}
-
-export const HomePage: FC<SearchPageProps> = ({ Query }) => {
-  useEffect(() => {}, []);
-  return <div>Hello World!</div>;
+export const SearchPage: FC<RouteComponentProps> = ({ history, location }) => {
+  const [posts, setPosts] = useState<EntryGetResponse[] | null>(null);
+  useEffect(() => {
+    const doGetPosts = async () => {
+      const allPosts = await getPosts();
+      setPosts(allPosts);
+    };
+    doGetPosts();
+  }, []);
+  return (
+    <div
+      css={css`
+        display: flex;
+        padding-right: 1%;
+        padding-left: 1%;
+      `}
+    >
+      <PostList posts={posts} />
+    </div>
+  );
 };
 
-export default HomePage;
+export default SearchPage;

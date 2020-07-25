@@ -1,22 +1,35 @@
 import React from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
+/** @jsx jsx */
+import { css, jsx } from '@emotion/core';
 
 import HomePage from './components/pages/HomePage';
-import Header from './components/partials/Header';
-import Footer from './components/partials/Footer';
+import SearchPage from './components/pages/SearchPage';
+
+import Header from './components/sections/Header';
+import Footer from './components/sections/Footer';
+import Sidebar from './components/sections/Sidebar';
 
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Switch from 'react-bootstrap/esm/Switch';
 
 function App() {
   return (
     <div className="App">
-      <Header title="My Two Cents"></Header>
       <BrowserRouter>
-        <Route exact path="/" component={HomePage} />
+        <Header title="My Two Cents" />
+        <Switch
+          css={css`
+            padding: 0px;
+          `}
+        >
+          <Route exact path="/" component={HomePage} />
+          <Route path="/search" component={SearchPage} />
+        </Switch>
+        <Footer />
       </BrowserRouter>
-      <Footer></Footer>
     </div>
   );
 }
