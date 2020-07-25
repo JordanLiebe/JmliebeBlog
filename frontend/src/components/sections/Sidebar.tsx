@@ -3,16 +3,7 @@ import { RouteComponentProps } from 'react-router-dom';
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
 
-export const Sidebar: FC<RouteComponentProps> = ({ history, location }) => {
-  const [search, setSearch] = useState('');
-  const handleSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.currentTarget.value);
-  };
-
-  const handleSearchSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    history.push(`/search?criteria=${search}`);
-  };
+export const Sidebar: FC = () => {
   return (
     <div
       css={css`
