@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using JmliebeBlogApi.Data;
 using JmliebeBlogApi.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -29,6 +30,7 @@ namespace JmliebeBlogApi.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public EntryGetResponse PostNewEntry(EntryPostRequest request)
         {
             var results = _dataRepository.PostNewEntry(request);
@@ -36,6 +38,7 @@ namespace JmliebeBlogApi.Controllers
         }
 
         [HttpPost("comment")]
+        [Authorize]
         public CommentGetResponse PostNewComment(CommentPostRequest request)
         {
             var results = _dataRepository.PostNewComment(request);

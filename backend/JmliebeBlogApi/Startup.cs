@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using JmliebeBlogApi.Data;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace JmliebeBlogApi
 {
@@ -37,6 +38,18 @@ namespace JmliebeBlogApi
                     .AllowAnyHeader()
                     .WithOrigins("http://localhost:3000", "https://blog.jmliebe.com")
                     .AllowCredentials()));
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme =
+                    JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme =
+                    JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.Authority = Configuration["Auth0:Authority"];
+                options.Audience = Configuration["Auth0:Audience"];
+            });
 
             services.AddScoped<IDataRepository, DataRepository>();
         }
@@ -68,6 +81,8 @@ namespace JmliebeBlogApi
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
