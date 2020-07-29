@@ -25,7 +25,6 @@ export const ContentWithRightSidebar = (
         id="content"
         css={css`
           width: 75%;
-          min-width: 300px;
           @media only screen and (max-width: 990px) {
             width: 100%;
           }

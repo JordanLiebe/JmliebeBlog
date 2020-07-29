@@ -1,5 +1,13 @@
 import React from 'react';
-import { Navbar, Nav, Form, FormControl, Button } from 'react-bootstrap';
+import {
+  Navbar,
+  Nav,
+  Form,
+  FormControl,
+  Button,
+  NavDropdown,
+} from 'react-bootstrap';
+import { useAuth0 } from '@auth0/auth0-react';
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
 
@@ -20,6 +28,8 @@ const navLinks: NavLink[] = [
 ];
 
 export const Header = (props: HeaderProps) => {
+  const { isAuthenticated } = useAuth0();
+  const { loginWithRedirect, logout, user } = useAuth0();
   return (
     <Navbar bg="dark" variant="dark" expand="lg" sticky="top">
       <Navbar.Brand href="#home">{props.title}</Navbar.Brand>
@@ -38,13 +48,23 @@ export const Header = (props: HeaderProps) => {
             </Nav.Link>
           ))}
         </Nav>
-        <Nav
-          css={css`
-            text-align: center;
-          `}
-        >
-          <Nav.Link>Sign In</Nav.Link>
-        </Nav>
+        {isAuthenticated ? (
+          <Nav>
+            <NavDropdown
+              title={'Hello, ' + user.nickname}
+              id="basic-nav-dropdown"
+            >
+              <NavDropdown.Item>Account</NavDropdown.Item>
+              <NavDropdown.Item onClick={() => logout()}>
+                Sign Out
+              </NavDropdown.Item>
+            </NavDropdown>
+          </Nav>
+        ) : (
+          <Nav>
+            <Nav.Link onClick={() => loginWithRedirect()}>Sign In</Nav.Link>
+          </Nav>
+        )}
       </Navbar.Collapse>
     </Navbar>
   );

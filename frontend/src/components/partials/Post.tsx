@@ -1,6 +1,8 @@
 import React, { FC } from 'react';
 import { EntryGetResponse } from '../functional/api-interfaces';
 import { CommentList } from '../partials/CommentList';
+import Comment from '../forms/Comment';
+import { useAuth0 } from '@auth0/auth0-react';
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
 
@@ -9,6 +11,7 @@ interface PostProps {
 }
 
 export const Post: FC<PostProps> = ({ post }) => {
+  const { isAuthenticated } = useAuth0();
   return (
     <div
       css={css`
@@ -25,6 +28,7 @@ export const Post: FC<PostProps> = ({ post }) => {
         <span> at </span> {post.created.toLocaleTimeString()} on{' '}
         {post.created.toLocaleDateString()}
       </span>
+      {isAuthenticated && <Comment />}
       {post.comments.length > 0 && post.comments[0] !== null && (
         <CommentList comments={post.comments} />
       )}
