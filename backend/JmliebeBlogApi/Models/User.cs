@@ -5,9 +5,8 @@ using System.Threading.Tasks;
 
 namespace JmliebeBlogApi.Models
 {
-    public class EntryPostRequest
+    public class User
     {
-        public string Subject { get; set; }
-        public string Content { get; set; }
+        public string Name { get; set; }
     }
 }

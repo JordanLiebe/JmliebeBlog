@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Runtime.CompilerServices;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using JmliebeBlogApi.Data;
 using JmliebeBlogApi.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 
 namespace JmliebeBlogApi.Controllers
 {
@@ -16,10 +20,40 @@ namespace JmliebeBlogApi.Controllers
     public class EntryController : ControllerBase
     {
         private readonly IDataRepository _dataRepository;
+        private readonly IHttpClientFactory _clientFactory;
+        private readonly string _auth0UserInfo;
 
-        public EntryController(IDataRepository dataRepository)
+        public EntryController(IDataRepository dataRepository, IHttpClientFactory clientFactory, IConfiguration configuration)
         {
             _dataRepository = dataRepository;
+            _clientFactory = clientFactory;
+            _auth0UserInfo = $"{configuration["Auth0:Authority"]}userinfo";
+        }
+
+        private async Task<string> GetUserName()
+        {
+            var request = new HttpRequestMessage(HttpMethod.Get,
+                _auth0UserInfo);
+            request.Headers.Add("Authorization",
+                Request.Headers["Authorization"].First());
+            var client = _clientFactory.CreateClient();
+            var response = await client.SendAsync(request);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var jsonContent = await response.Content.ReadAsStringAsync();
+                var user = JsonSerializer.Deserialize<User>(
+                    jsonContent,
+                    new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    });
+                return user.Name;
+            }
+            else
+            {
+                return "";
+            }
         }
 
         [HttpGet]
@@ -31,17 +65,17 @@ namespace JmliebeBlogApi.Controllers
 
         [HttpPost]
         [Authorize]
-        public EntryGetResponse PostNewEntry(EntryPostRequest request)
+        public async Task<EntryGetResponse> PostNewEntry(EntryPostRequest request)
         {
-            var results = _dataRepository.PostNewEntry(request);
+            var results = _dataRepository.PostNewEntry(request, await GetUserName());
             return results;
         }
 
         [HttpPost("comment")]
         [Authorize]
-        public CommentGetResponse PostNewComment(CommentPostRequest request)
+        public async Task<CommentGetResponse> PostNewComment(CommentPostRequest request)
         {
-            var results = _dataRepository.PostNewComment(request);
+            var results = _dataRepository.PostNewComment(request, await GetUserName());
             return results;
         }
     }

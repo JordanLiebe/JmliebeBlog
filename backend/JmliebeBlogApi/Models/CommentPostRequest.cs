@@ -9,6 +9,5 @@ namespace JmliebeBlogApi.Models
     {
         public int EntryId { get; set; }
         public string Content { get; set; }
-        public string Author { get; set; }
     }
 }

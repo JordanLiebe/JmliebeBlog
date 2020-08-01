@@ -1,4 +1,5 @@
 import { EntryGetResponse } from './api-interfaces';
+import { CommentPost } from '../forms/CommentForm';
 
 export const getPosts = async (): Promise<EntryGetResponse[]> => {
   let posts: EntryGetResponse[] = [];
@@ -21,4 +22,17 @@ export const getPosts = async (): Promise<EntryGetResponse[]> => {
           }))
         : [],
   }));
+};
+
+export const postComment = async (body: CommentPost, accessToken: string) => {
+  const request = new Request('https://api.jmliebe.com/blog/Entry/comment', {
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(body),
+  });
+  request.headers.set('authorization', `bearer ${accessToken}`);
+
+  await fetch(request);
 };

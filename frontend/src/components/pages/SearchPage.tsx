@@ -22,7 +22,7 @@ export const SearchPage: FC<RouteComponentProps> = ({ history, location }) => {
         padding-left: 1%;
       `}
     >
-      <PostList posts={posts} loaded={true} />
+      {/*<PostList posts={posts} loaded={true} />*/}
     </div>
   );
 };

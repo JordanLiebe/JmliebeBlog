@@ -53,7 +53,7 @@ namespace JmliebeBlogApi.Data
             }
         }
 
-        public EntryGetResponse PostNewEntry(EntryPostRequest request)
+        public EntryGetResponse PostNewEntry(EntryPostRequest request, string Author)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
@@ -61,12 +61,12 @@ namespace JmliebeBlogApi.Data
 
                 return connection.QueryFirst<EntryGetResponse>(
                     @" EXEC [Blog].[dbo].[SP_Create_New_Entry] @Subject = @Subject, @Content = @Content, @Author = @Author",
-                    new { Subject = request.Subject, Content = request.Content, Author = request.Author }
+                    new { Subject = request.Subject, Content = request.Content, Author = Author }
                 );
             }
         }
 
-        public CommentGetResponse PostNewComment(CommentPostRequest request)
+        public CommentGetResponse PostNewComment(CommentPostRequest request, string Author)
        {
             using (var connection = new SqlConnection(_connectionString))
             {
@@ -74,7 +74,7 @@ namespace JmliebeBlogApi.Data
 
                 return connection.QueryFirst<CommentGetResponse>(
                     @" EXEC [Blog].[dbo].[SP_Create_New_Comment] @EntryId = @EntryId, @Content = @Content, @Author = @Author",
-                    new { EntryId = request.EntryId, Content = request.Content, Author = request.Author }
+                    new { EntryId = request.EntryId, Content = request.Content, Author = Author }
                 );
             }
         }

@@ -51,6 +51,8 @@ namespace JmliebeBlogApi
                 options.Audience = Configuration["Auth0:Audience"];
             });
 
+            services.AddHttpClient();
+
             services.AddScoped<IDataRepository, DataRepository>();
         }
 

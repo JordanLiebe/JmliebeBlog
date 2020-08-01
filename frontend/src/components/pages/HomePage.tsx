@@ -12,17 +12,23 @@ export const HomePage: FC<RouteComponentProps> = ({ history, location }) => {
   const [loaded, setLoaded] = useState<boolean>(false);
   const [search, setSearch] = useState<string>('');
   const [posts, setPosts] = useState<EntryGetResponse[] | null>(null);
+
+  const updatePosts = async () => {
+    setLoaded(false);
+    const allPosts = await getPosts();
+    setPosts(allPosts);
+    setLoaded(true);
+    console.log('Updating...');
+  };
+
   useEffect(() => {
-    const doGetPosts = async () => {
-      const allPosts = await getPosts();
-      setPosts(allPosts);
-      setLoaded(true);
-    };
-    doGetPosts();
+    updatePosts();
   }, []);
   return (
     <ContentWithRightSidebar
-      content={<PostList posts={posts} loaded={loaded} />}
+      content={
+        <PostList posts={posts} loaded={loaded} updatePosts={updatePosts} />
+      }
       sidebar={<Sidebar search={search} setSearch={setSearch} />}
     />
   );

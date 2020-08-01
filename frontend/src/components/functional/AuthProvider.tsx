@@ -10,6 +10,10 @@ const AuthProvider: FC = ({ children }) => {
     ? process.env.REACT_APP_AUTH0_CLIENT_ID
     : '';
 
+  const audience: string = process.env.REACT_APP_AUTH0_AUDIENCE
+    ? process.env.REACT_APP_AUTH0_AUDIENCE
+    : '';
+
   const history = useHistory();
 
   const onRedirectCallback = (appState: any) => {
@@ -22,6 +26,7 @@ const AuthProvider: FC = ({ children }) => {
       clientId={clientId}
       redirectUri={window.location.origin}
       onRedirectCallback={onRedirectCallback}
+      audiense={audience}
     >
       {children}
     </Auth0Provider>

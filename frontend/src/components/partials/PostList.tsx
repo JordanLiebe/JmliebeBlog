@@ -7,9 +7,14 @@ import { css, jsx } from '@emotion/core';
 interface PostListProps {
   posts: EntryGetResponse[] | null;
   loaded?: boolean;
+  updatePosts: () => void;
 }
 
-export const PostList: FC<PostListProps> = ({ posts, loaded = true }) => {
+export const PostList: FC<PostListProps> = ({
+  posts,
+  loaded = true,
+  updatePosts,
+}) => {
   return (
     <div
       css={css`
@@ -17,7 +22,10 @@ export const PostList: FC<PostListProps> = ({ posts, loaded = true }) => {
       `}
     >
       {loaded ? (
-        posts && posts.map((post) => <Post key={post.id} post={post} />)
+        posts &&
+        posts.map((post) => (
+          <Post key={post.id} post={post} updatePosts={updatePosts} />
+        ))
       ) : (
         <div
           css={css`

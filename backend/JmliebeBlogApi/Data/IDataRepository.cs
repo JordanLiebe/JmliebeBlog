@@ -10,8 +10,8 @@ namespace JmliebeBlogApi.Data
     {
         IEnumerable<EntryGetResponse> GetAllEntries_WithComments();
 
-        EntryGetResponse PostNewEntry(EntryPostRequest request);
+        EntryGetResponse PostNewEntry(EntryPostRequest request, string Author);
 
-        CommentGetResponse PostNewComment(CommentPostRequest request);
+        CommentGetResponse PostNewComment(CommentPostRequest request, string Author);
     }
 }
