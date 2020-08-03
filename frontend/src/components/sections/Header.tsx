@@ -54,15 +54,33 @@ export const Header = (props: HeaderProps) => {
               title={'Hello, ' + user.nickname}
               id="basic-nav-dropdown"
             >
-              <NavDropdown.Item>Account</NavDropdown.Item>
-              <NavDropdown.Item onClick={() => logout()}>
+              <NavDropdown.Item
+                css={css`
+                  text-align: center;
+                `}
+              >
+                Account
+              </NavDropdown.Item>
+              <NavDropdown.Item
+                onClick={() => logout()}
+                css={css`
+                  text-align: center;
+                `}
+              >
                 Sign Out
               </NavDropdown.Item>
             </NavDropdown>
           </Nav>
         ) : (
           <Nav>
-            <Nav.Link onClick={() => loginWithRedirect()}>Sign In</Nav.Link>
+            <Nav.Link
+              onClick={() => loginWithRedirect()}
+              css={css`
+                text-align: center;
+              `}
+            >
+              Sign In
+            </Nav.Link>
           </Nav>
         )}
       </Navbar.Collapse>

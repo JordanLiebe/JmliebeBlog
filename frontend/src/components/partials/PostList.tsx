@@ -1,6 +1,7 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { EntryGetResponse } from '../functional/api-interfaces';
 import { Post } from '../partials/Post';
+import PostForm from '../forms/PostForm';
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
 
@@ -21,6 +22,7 @@ export const PostList: FC<PostListProps> = ({
         padding-bottom: 5px;
       `}
     >
+      <PostForm />
       {loaded ? (
         posts &&
         posts.map((post) => (

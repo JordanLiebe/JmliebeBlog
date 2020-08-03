@@ -51,6 +51,7 @@ const CommentForm: FC<CommentProps> = ({ entryId, updatePosts }) => {
           disabled={submitting}
         ></Form.Control>
         <Button
+          variant="info"
           type="submit"
           css={css`
             margin: 10px;
