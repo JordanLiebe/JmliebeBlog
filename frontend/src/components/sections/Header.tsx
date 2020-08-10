@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  Navbar,
-  Nav,
-  Form,
-  FormControl,
-  Button,
-  NavDropdown,
-} from 'react-bootstrap';
+import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import { useAuth0 } from '@auth0/auth0-react';
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';

@@ -1,7 +1,5 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core';
 
 import HomePage from './components/pages/HomePage';
 import SearchPage from './components/pages/SearchPage';

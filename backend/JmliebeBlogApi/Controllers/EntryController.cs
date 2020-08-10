@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
+using Microsoft.AspNetCore.Cors;
 
 namespace JmliebeBlogApi.Controllers
 {
@@ -65,17 +66,41 @@ namespace JmliebeBlogApi.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<EntryGetResponse> PostNewEntry(EntryPostRequest request)
+        public async Task<IActionResult> PostNewEntry(EntryPostRequest request)
         {
-            var results = _dataRepository.PostNewEntry(request, await GetUserName());
-            return results;
+            var userEmail = await GetUserName();
+            var access = _dataRepository.GetUserAccess(userEmail);
+
+            if (access.Admin != 1 && access.Editor != 1)
+                return Unauthorized(new { message = "Access Denied" }); 
+
+            var results = _dataRepository.PostNewEntry(request, userEmail);
+            return Ok(results);
         }
 
+        
         [HttpPost("comment")]
         [Authorize]
-        public async Task<CommentGetResponse> PostNewComment(CommentPostRequest request)
+        public async Task<IActionResult> PostNewComment(CommentPostRequest request)
         {
-            var results = _dataRepository.PostNewComment(request, await GetUserName());
+            var userEmail = await GetUserName();
+            var access = _dataRepository.GetUserAccess(userEmail);
+
+            if (access.Admin != 1 && access.Editor != 1)
+                return Unauthorized(new { message = "Access Denied" });
+
+            var results = _dataRepository.PostNewComment(request, userEmail);
+            return Ok(results);
+        }
+
+        [HttpGet("UserAccess")]
+        [Authorize]
+        public async Task<UserAccess> GetUserAccess()
+        {
+            string User = await GetUserName();
+
+            var results = _dataRepository.GetUserAccess(User);
+
             return results;
         }
     }

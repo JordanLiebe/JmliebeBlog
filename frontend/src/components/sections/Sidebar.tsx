@@ -1,5 +1,4 @@
-import React, { FC, useState, FormEvent, ChangeEvent } from 'react';
-import { RouteComponentProps } from 'react-router-dom';
+import React, { FC } from 'react';
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
 

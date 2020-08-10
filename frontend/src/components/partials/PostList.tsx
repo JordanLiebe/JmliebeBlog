@@ -1,7 +1,8 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import { EntryGetResponse } from '../functional/api-interfaces';
 import { Post } from '../partials/Post';
 import PostForm from '../forms/PostForm';
+import { useAuth0 } from '@auth0/auth0-react';
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
 
@@ -16,13 +17,14 @@ export const PostList: FC<PostListProps> = ({
   loaded = true,
   updatePosts,
 }) => {
+  const { isAuthenticated } = useAuth0();
   return (
     <div
       css={css`
         padding-bottom: 5px;
       `}
     >
-      <PostForm />
+      {isAuthenticated && <PostForm updatePosts={updatePosts} />}
       {loaded ? (
         posts &&
         posts.map((post) => (

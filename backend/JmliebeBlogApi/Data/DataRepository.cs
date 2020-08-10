@@ -78,5 +78,15 @@ namespace JmliebeBlogApi.Data
                 );
             }
         }
+
+        public UserAccess GetUserAccess(string UserEmail)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                return connection.QueryFirst<UserAccess>(@"EXEC SP_Get_User_Access @User_Email = @User_Email", new { User_Email = UserEmail });
+            }
+        }
     }
 }

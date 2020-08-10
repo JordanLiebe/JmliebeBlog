@@ -1,19 +1,23 @@
 import React, { FC, FormEvent, useState } from 'react';
 import { Button, Modal, Form } from 'react-bootstrap';
-import { postComment } from '../functional/api-client';
+import { postEntry } from '../functional/api-client';
 import { useAuth0 } from '@auth0/auth0-react';
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
 
-interface PostProps {}
+interface PostProps {
+  updatePosts: () => void;
+}
 
-export interface EntryPost {
-  EntryId: string;
+export interface EntryObj {
+  Subject: string;
   Content: string;
 }
 
-const PostForm: FC<PostProps> = () => {
+const PostForm: FC<PostProps> = ({ updatePosts }) => {
+  const [subject, setSubject] = useState('');
   const [content, setContent] = useState('');
+
   const [submitting, setSubmitting] = useState(false);
   const [showPostForm, setShowPostForm] = useState<boolean>(false);
 
@@ -22,11 +26,11 @@ const PostForm: FC<PostProps> = () => {
   const handleSubmission = async (event: React.FormEvent<HTMLElement>) => {
     setSubmitting(true);
     let token: string = await getAccessTokenSilently();
-    alert('test');
-    /*let postBody: CommentPost = { EntryId: entryId, Content: content };
-    await postComment(postBody, token);
-    updatePosts();*/
-    //setSubmitting(false);
+    let postBody: EntryObj = { Subject: subject, Content: content };
+    await postEntry(postBody, token);
+    updatePosts();
+    setSubmitting(false);
+    setShowPostForm(false);
   };
   return (
     <div
@@ -65,6 +69,8 @@ const PostForm: FC<PostProps> = () => {
                 type="text"
                 size="lg"
                 disabled={submitting}
+                value={subject}
+                onChange={(event) => setSubject(event.currentTarget.value)}
               ></Form.Control>
             </Form.Group>
             <Form.Group>
@@ -73,9 +79,16 @@ const PostForm: FC<PostProps> = () => {
                 as="textarea"
                 size="lg"
                 disabled={submitting}
+                value={content}
+                onChange={(event) => setContent(event.currentTarget.value)}
               ></Form.Control>
             </Form.Group>
-            <Button variant="primary" type="submit" size="lg">
+            <Button
+              variant="primary"
+              type="submit"
+              size="lg"
+              disabled={submitting}
+            >
               Post
             </Button>
           </Form>

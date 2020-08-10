@@ -13,5 +13,7 @@ namespace JmliebeBlogApi.Data
         EntryGetResponse PostNewEntry(EntryPostRequest request, string Author);
 
         CommentGetResponse PostNewComment(CommentPostRequest request, string Author);
+
+        UserAccess GetUserAccess(string UserEmail);
     }
 }
