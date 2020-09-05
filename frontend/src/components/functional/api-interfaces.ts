@@ -16,3 +16,9 @@ export interface CommentGetResponse {
   created: Date;
   author: string;
 }
+
+export interface CategoryGetResponse {
+  id: number;
+  name: string;
+  short: string;
+}

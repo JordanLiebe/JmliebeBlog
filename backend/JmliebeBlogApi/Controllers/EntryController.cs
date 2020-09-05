@@ -64,6 +64,13 @@ namespace JmliebeBlogApi.Controllers
             return results;
         }
 
+        [HttpGet("{category?}")]
+        public IEnumerable<EntryGetResponse> GetAllEntries(string category)
+        {
+            var results = _dataRepository.GetAllEntries_WithComments_ByCategory(category);
+            return results;
+        }
+
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> PostNewEntry(EntryPostRequest request)

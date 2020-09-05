@@ -1,15 +1,24 @@
-import React, { FC } from 'react';
+import React, { FC, useState, useEffect } from 'react';
+import CategorySelector from '../partials/CategorySelector';
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
+import { RouteComponentProps } from 'react-router';
 
-interface SidebarProps {
+interface SidebarProps extends RouteComponentProps {
   search: string;
   setSearch: (search: string) => void;
 }
 
-export const Sidebar: FC<SidebarProps> = ({ search, setSearch }) => {
+export const Sidebar: FC<SidebarProps> = ({
+  history,
+  location,
+  match,
+  search,
+  setSearch,
+}) => {
   return (
     <div>
+      <CategorySelector history={history} location={location} match={match} />
       <div
         css={css`
           margin: 20px;
@@ -27,7 +36,7 @@ export const Sidebar: FC<SidebarProps> = ({ search, setSearch }) => {
         </label>
         <div>
           <form>
-            <input />
+            <input disabled />
             <button>Search</button>
           </form>
         </div>

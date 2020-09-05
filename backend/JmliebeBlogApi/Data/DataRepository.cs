@@ -88,5 +88,51 @@ namespace JmliebeBlogApi.Data
                 return connection.QueryFirst<UserAccess>(@"EXEC SP_Get_User_Access @User_Email = @User_Email", new { User_Email = UserEmail });
             }
         }
+
+        public IEnumerable<EntryGetResponse> GetAllEntries_WithComments_ByCategory(string Category)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                var questionDictionary =
+                    new Dictionary<int, EntryGetResponse>();
+                return connection
+                    .Query<
+                        EntryGetResponse,
+                        CommentGetResponse,
+                        EntryGetResponse>(
+                            "EXEC [Blog].[dbo].[SP_Get_Entries_By_Category] @Category = @Category",
+                        map: (q, a) =>
+                        {
+                            EntryGetResponse question;
+
+                            if (!questionDictionary.TryGetValue(q.Id, out question))
+                            {
+                                question = q;
+                                question.Comments =
+                                    new List<CommentGetResponse>();
+                                questionDictionary.Add(question.Id, question);
+                            }
+                            question.Comments.Add(a);
+                            return question;
+                        },
+                        new { Category = Category },
+                        splitOn: "Id"
+                    )
+                    .Distinct()
+                    .ToList();
+            }
+        }
+
+        public IEnumerable<CategoryGetResponse> GetAllCategories()
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                return connection.Query<CategoryGetResponse>(@"EXEC SP_Get_All_Categories");
+            }
+        }
     }
 }

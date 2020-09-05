@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 import HomePage from './components/pages/HomePage';
+import CategoryPage from './components/pages/CategoryPage';
 import SearchPage from './components/pages/SearchPage';
 import SignInPage from './components/pages/SignInPage';
 
@@ -21,6 +22,7 @@ function App() {
           <Header title="My Two Cents" />
           <Switch>
             <Route exact path="/" component={HomePage} />
+            <Route path="/Category/:category" component={CategoryPage} />
             <Route path="/search" component={SearchPage} />
             <Route path="/signin" component={SignInPage} />
           </Switch>

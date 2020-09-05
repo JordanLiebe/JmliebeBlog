@@ -8,7 +8,11 @@ import { RouteComponentProps } from 'react-router-dom';
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
 
-export const HomePage: FC<RouteComponentProps> = ({ history, location }) => {
+export const HomePage: FC<RouteComponentProps> = ({
+  history,
+  location,
+  match,
+}) => {
   const [loaded, setLoaded] = useState<boolean>(false);
   const [search, setSearch] = useState<string>('');
   const [posts, setPosts] = useState<EntryGetResponse[] | null>(null);
@@ -29,7 +33,15 @@ export const HomePage: FC<RouteComponentProps> = ({ history, location }) => {
       content={
         <PostList posts={posts} loaded={loaded} updatePosts={updatePosts} />
       }
-      sidebar={<Sidebar search={search} setSearch={setSearch} />}
+      sidebar={
+        <Sidebar
+          search={search}
+          setSearch={setSearch}
+          history={history}
+          location={location}
+          match={match}
+        />
+      }
     />
   );
 };
