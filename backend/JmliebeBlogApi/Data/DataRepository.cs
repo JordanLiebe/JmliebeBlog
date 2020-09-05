@@ -31,7 +31,7 @@ namespace JmliebeBlogApi.Data
                         EntryGetResponse,
                         CommentGetResponse,
                         EntryGetResponse>(
-                            "EXEC [Blog].[dbo].[SP_Get_All_Entries]",
+                            "EXEC [Blog].[dbo].[SP_Get_Entries]",
                         map: (q, a) =>
                         {
                             EntryGetResponse question;
@@ -131,7 +131,7 @@ namespace JmliebeBlogApi.Data
             {
                 connection.Open();
 
-                return connection.Query<CategoryGetResponse>(@"EXEC SP_Get_All_Categories");
+                return connection.Query<CategoryGetResponse>(@"EXEC SP_Get_Categories");
             }
         }
     }
